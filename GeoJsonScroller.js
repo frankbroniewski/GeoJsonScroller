@@ -2,16 +2,14 @@
  * A Scroller to scroll through the features of a GeoJson object
  * and return the properties of the feature on scroll
  *
- * geojson: the geosjon object to scroll through
- * properties: which properties to return
- * coordinates: 'yes' or 'no', return the coordinates of the feature with the properties
+ * geojson: the GeoJSON object to scroll through
+ *                 should return the result as an object
  * sortfunc: an optional sort function for sorting the features
  */
-var GeoJsonScroller = function (geojson, properties, coordinates, sortfunc) {
+var GeoJsonScroller = function (geojson, propertiesFunc, sortfunc) {
 
   this.geojson = geojson;
-  this.properties = properties;
-  this.coordinates = coordinates;
+  this.propertiesFunc = propertiesFunc;
   this.position = 0;
   this.numFeatures = this.geojson.features.length;
 
@@ -21,20 +19,8 @@ var GeoJsonScroller = function (geojson, properties, coordinates, sortfunc) {
 
 
 GeoJsonScroller.prototype.getData = function () {
-  var feature = this.geojson.features[this.position],
-      data = {};
-
-  if (this.coordinates == "yes") {
-    data["center"] = feature.geometry.coordinates;
-  }
-
-  for (var key in feature.properties) {
-    if (this.properties.indexOf(key) > -1) {
-      data[key] = properties[key];
-    }
-  }
-
-  return data;
+  var feature = this.geojson.features[this.position];
+  return this.propertiesFunc(feature);
 };
 
 
