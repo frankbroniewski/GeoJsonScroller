@@ -15,31 +15,26 @@ var GeoJsonScroller = function (geojson, properties, coordinates, sortfunc) {
   this.position = 0;
   this.numFeatures = this.geojson.features.length;
 
-  if (sortfunc) { this._sort(sortfunc); }
+  if (sortfunc) { this.geojson.features.sort(sortfunc); }
 
 }
 
 
-GeoJsonScroller.prototype._sort = function (sortfunc) {
-  this.geojson.features.sort(sortfunc);
-}
-
-
-GeoJsonScroller.prototype._getResult = function () {
+GeoJsonScroller.prototype.getData = function () {
   var feature = this.geojson.features[this.position],
-      result = {};
+      data = {};
 
   if (this.coordinates == "yes") {
-    result["coordinates"] = feature.geometry.coordinates;
+    data["center"] = feature.geometry.coordinates;
   }
 
   for (var key in feature.properties) {
     if (this.properties.indexOf(key) > -1) {
-      result[key] = properties[key];
+      data[key] = properties[key];
     }
   }
 
-  return result;
+  return data;
 };
 
 
@@ -47,7 +42,7 @@ GeoJsonScroller.prototype.forward = function () {
   var index = this.position + 1;
   if (index > this.numFeatures) { index = index - this.numFeatures; }
   this.position = index;
-  return this._getResult();
+  return this.getData();
 }
 
 
@@ -55,5 +50,5 @@ GeoJsonScroller.prototype.rewind = function () {
   var index = this.position - 1;
   if (index < 0) { index = index + this.numFeatures; }
   this.position = index;
-  return this._getResult();
+  return this.getData();
 }
