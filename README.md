@@ -5,10 +5,13 @@ object and do stuff with them. Has a `.forward()` and a `.rewind()` method, just
 like the good old [cassette recorder](https://en.wikipedia.org/wiki/Cassette_deck).
 Use it with e.g. events to iterate programmatically through the features in an endless loop.
 
+Create the GeoJsonScroller as follows:
+`var scroller = new GeoJsonScroller(geoJsonDataObject, getDataFunction, sortFunction);`
+
 You can use notable methods on the class:
 * `getData()`: retrieves the data for the current feature
-* `forward()`: move on to the next feature. If the end is reached, continue from start
-* `rewind()`: go back one feature. If the start is reached, continue with the last feature in the feature's array
+* `forward()`: move on to the next feature and get its data. If the end is reached, continue from start
+* `rewind()`: go back one feature and get its data. If the start is reached, continue with the last feature in the feature's array
 
 You need to pass a function to retrieve data from a feature:
 ```
