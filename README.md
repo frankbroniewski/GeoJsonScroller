@@ -14,7 +14,7 @@ function getData (feature) {
   data["center"] = feature.geometry.coordinates;
 
   for (var key in feature.properties) {
-    if (cols.indexOf(key) > -1) { data["key"] = feature.properties["key"]; }
+    if (cols.indexOf(key) > -1) { data[key] = feature.properties[key]; }
   }
   return data
 }
