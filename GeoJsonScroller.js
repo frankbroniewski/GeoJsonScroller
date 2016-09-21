@@ -20,7 +20,6 @@ var GeoJsonScroller = function (geojson, propertiesFunc, sortfunc) {
 
 
 GeoJsonScroller.prototype.getData = function () {
-  console.log("position", this.position);
   var feature = this.geojson.features[this.position];
   return this.propertiesFunc(feature);
 };
