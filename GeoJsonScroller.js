@@ -4,9 +4,56 @@
  *
  * geojson: the geosjon object to scroll through
  * properties: which properties to return
+ * coordinates: 'yes' or 'no', return the coordinates of the feature with the properties
  * sortfunc: an optional sort function for sorting the features
- * geometry: 'yes' or 'no', return the geometry of the feature with the properties
  */
-var GeoJsonScroller = function (geojson, properties, sortfunc, geometry) {
+var GeoJsonScroller = function (geojson, properties, coordinates, sortfunc) {
 
+  this.geojson = geojson;
+  this.properties = properties;
+  this.coordinates = coordinates;
+  this.position = 0;
+  this.numFeatures = this.geojson.features.length;
+
+  if (sortfunc) { this._sort(sortfunc); }
+
+}
+
+
+GeoJsonScroller.prototype._sort = function (sortfunc) {
+  this.geojson.features.sort(sortfunc);
+}
+
+
+GeoJsonScroller.prototype._getResult = function () {
+  var feature = this.geojson.features[this.position],
+      result = {};
+
+  if (this.coordinates == "yes") {
+    result["coordinates"] = feature.geometry.coordinates;
+  }
+
+  for (var key in feature.properties) {
+    if (this.properties.indexOf(key) > -1) {
+      result[key] = properties[key];
+    }
+  }
+
+  return result;
+};
+
+
+GeoJsonScroller.prototype.forward = function () {
+  var index = this.position + 1;
+  if (index > this.numFeatures) { index = index - this.numFeatures; }
+  this.position = index;
+  return this._getResult();
+}
+
+
+GeoJsonScroller.prototype.rewind = function () {
+  var index = this.position - 1;
+  if (index < 0) { index = index + this.numFeatures; }
+  this.position = index;
+  return this._getResult();
 }
