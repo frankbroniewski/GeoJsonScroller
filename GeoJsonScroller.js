@@ -3,6 +3,7 @@
  * and return the properties of the feature on scroll
  *
  * geojson: the GeoJSON object to scroll through
+ * propertiesFunc: function for getting props from a GeoJSON feature,
  *                 should return the result as an object
  * sortfunc: an optional sort function for sorting the features
  */
@@ -19,6 +20,7 @@ var GeoJsonScroller = function (geojson, propertiesFunc, sortfunc) {
 
 
 GeoJsonScroller.prototype.getData = function () {
+  console.log("position", this.position);
   var feature = this.geojson.features[this.position];
   return this.propertiesFunc(feature);
 };
