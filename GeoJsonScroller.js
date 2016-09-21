@@ -28,7 +28,7 @@ GeoJsonScroller.prototype.getData = function () {
 
 GeoJsonScroller.prototype.forward = function () {
   var index = this.position + 1;
-  if (index > this.numFeatures) { index = index - this.numFeatures; }
+  if (index >= this.numFeatures) { index = index - this.numFeatures; }
   this.position = index;
   return this.getData();
 }
@@ -36,7 +36,7 @@ GeoJsonScroller.prototype.forward = function () {
 
 GeoJsonScroller.prototype.rewind = function () {
   var index = this.position - 1;
-  if (index < 0) { index = index + this.numFeatures; }
+  if (index <= 0) { index = index + this.numFeatures; }
   this.position = index;
   return this.getData();
 }
